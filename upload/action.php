@@ -16,6 +16,7 @@ if(!isset($_FILES["uploadedFile"])) {
 if($imageFileType != "jpg" && $imageFileType != "jpeg" && $imageFileType != "png" && $imageFileType != "bmp") {
 	// ECODE 1: Wrong filetype
 	header("Location: upload.php?upload=fail&ecode=1");
+	writeLog("upload/action.php:checkit", "User uploaded non-image (caught by file extension ): " . usernameIs() . " to " . $target_file);
 	return false;
 }
 
@@ -23,7 +24,7 @@ $check = getimagesize($_FILES["uploadedFile"]["tmp_name"]);
 if($check == false) {
 	// ECODE 1: Wrong filetype
     header("Location: upload.php?upload=fail&ecode=1");
-	writeLog("upload/action.php:checkit", "User uploaded obfuscated non-image: " . usernameIs() . " to " . $target_file);
+	writeLog("upload/action.php:checkit", "User uploaded obfuscated non-image (caught by getimagesize() ): " . usernameIs() . " to " . $target_file);
 	return false;
 }
 
