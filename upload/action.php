@@ -23,6 +23,7 @@ $check = getimagesize($_FILES["uploadedFile"]["tmp_name"]);
 if($check == false) {
 	// ECODE 1: Wrong filetype
     header("Location: upload.php?upload=fail&ecode=1");
+	writeLog("upload/action.php:checkit", "User uploaded obfuscated non-image: " . usernameIs() . " to " . $target_file);
 	return false;
 }
 
@@ -33,6 +34,8 @@ if(move_uploaded_file($_FILES["uploadedFile"]["tmp_name"], $target_file)) {
 else {
 	// ECODE 2: Upload failed
 	header("Location: upload.php?upload=fail&ecode=2");
+	writeLog("upload/action.php:checkit", "File accepted but upload failed. Server error? Check file.");
+	writeLog("upload/action.php:checkit", "User: " . usernameIs() . ", file: " . $target_file);
 	return false;
 }
 }

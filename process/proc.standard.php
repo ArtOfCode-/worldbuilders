@@ -5,7 +5,7 @@
 	function queryDatabase($query) {
 		$DB_HOST = "mysql.hostinger.co.uk";
 		$DB_USER = "u875642593_admin";
-		$DB_PASS = "*****";
+		$DB_PASS = "----";
 		$DB_NAME = "u875642593_dbm";
 		$connection = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 		if(!$connection || mysqli_connect_errno()) return false;
@@ -14,7 +14,7 @@
 	function getDBConnection() {
 		$DB_HOST = "mysql.hostinger.co.uk";
 		$DB_USER = "u875642593_admin";
-		$DB_PASS = "*****";
+		$DB_PASS = "----";
 		$DB_NAME = "u875642593_dbm";
 		$connection = mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
 		return $connection || false;
@@ -35,7 +35,7 @@
 		return $_SESSION["username"];
 	}
 	
-	// General utilities: clean up strings (remove illegal chars)
+	// General utilities: clean up strings (remove illegal chars), logging
 	function cleanString($string) {
 		$string = str_replace("\0", " ", $string); // NULL char: ASCII 0, \0
 		$string = str_replace("\r", " ", $string); // CR carriage return: \r
@@ -45,6 +45,16 @@
 		$string = str_replace(chr(26), " ", $string); // Ctrl-Z: ASCII 26, chr(26)
 		$string = str_replace(";", " ", $string); // Semicolon (SQL separator): ;
 		return $string;
+	}
+	
+	function writeLog($scriptName, $logData) {
+		$date = date("d-m-Y H:i:s");
+		$logString = "[" . $date . "] [" . $scriptName . "] " . $logData;
+		$return = file_put_contents("/log.log", file_get_contents("/log.log") . "\n" . $logData);
+		if($return === false)
+			return false;
+		else
+			return true;
 	}
 	
 ?>
