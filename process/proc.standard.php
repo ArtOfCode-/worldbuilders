@@ -50,7 +50,7 @@
 	function writeLog($scriptName, $logData) {
 		$date = date("d-m-Y H:i:s");
 		$logString = "[" . $date . "] [" . $scriptName . "] " . $logData;
-		$return = file_put_contents("/log.log", file_get_contents("/log.log") . "\n" . $logData);
+		$return = file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/log.log", file_get_contents("/log.log") . "\n" . $logData);
 		if($return === false)
 			return false;
 		else
